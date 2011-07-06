@@ -47,11 +47,11 @@ class Products extends Spine.Controller
     # if key is enter
     if e.keyCode is 13 
       @items.find(".item:first .add").click()  
-
+      @filter.val("")
     @render()
     
   create: ->
-    invoice = Invoice.create()
+    invoice = Invoice.create(client: @client)
     invoice.addProducts(@products)
     @navigate("/invoices", invoice.id)
     
