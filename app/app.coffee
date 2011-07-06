@@ -1,27 +1,34 @@
 Clients  = require("controllers/clients")
 Products = require("controllers/products")
+Invoices = require("controllers/invoices")
 
 Client = require("models/client")
 Product = require("models/product")
+Invoice = require("models/invoice")
 
 class App extends Spine.Controller
   elements:
     "#clients": "clients"
     "#products": "products"
+    "#invoices": "invoices"
   
   constructor: ->
     super
     
     @clients  = new Clients(el: @clients)
     @products = new Products(el: @products)
+    @invoices = new Invoices(el: @invoices)
     
-    new Spine.Manager(@clients, @products)
+    new Spine.Manager(@clients, @products, @invoices)
     
     @routes
       "/clients": -> @clients.active()
       "/products/:id": (params) ->
         @products.change Client.find(params.id)
         @products.active()
+      "/invoices/:id": (params) ->
+        @invoices.change Invoice.find(params.id)
+        @invoices.active()
 
     Spine.Route.setup(shim: true)
     @navigate "/clients"

@@ -1,6 +1,7 @@
 $ = jQuery
 
 Product = require("models/product")
+Invoice = require("models/invoice")
 
 class Products extends Spine.Controller
   elements:
@@ -50,6 +51,8 @@ class Products extends Spine.Controller
     @render()
     
   create: ->
+    invoice = Invoice.create()
+    invoice.addProducts(@products)
+    @navigate("/invoices", invoice.id)
     
-
 module.exports = Products
